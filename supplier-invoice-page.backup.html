@@ -5,31 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="approvals-styles.css">
 	<link rel="stylesheet" href="overlay-crew-management-invoices.css">
-<script src="navbar.js" defer></script>
+	<script src="navbar.js" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
 	
     <title>Approvals Layout</title>
-    <script>
-        // Function to get URL parameters
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-
-        // When the page loads, set up the back button
-        window.onload = function() {
-            var fromPage = getUrlParameter('from');
-            var backButton = document.querySelector('.nav-button-circle');
-            if (backButton) {
-                // Update the back button's onclick handler to go to the correct page
-                backButton.onclick = function() {
-                    window.location.href = fromPage || 'supplier-invoices.html';
-                };
-            }
-        };
-    </script>
 	
 
 	
@@ -57,7 +36,7 @@
 <!-- Centered White Box -->
 <div class="centered-box" style="margin-left: 150px; width: 655px; height: 740px;">
     <!-- Close Button -->
-	<a href="supplier-management.html" class="close-circle">&#x2715;</a>
+	<a href="crew-management.html" class="close-circle">&#x2715;</a>
     <div class="outer-container">
 	
 	
@@ -67,7 +46,7 @@
         <div class="top-container">
 			<div class="nav-bar-window">
 				<div class="navigation-buttons">
-					<button class="nav-button-circle">&#8249;</button>
+					<button class="nav-button-circle"   onclick="location.href='supplier-invoices.html';">&#8249;</button>
 					<button class="nav-button-circle2">&#8250;</button>
 				</div>
 				<h2 class="window-head">Decibel - INV-00001</h2>
@@ -106,9 +85,9 @@
 								<div class="right-container">
 
 									<span class="label3">Subtotal</span>
-									<div class="box3">£10,000.00</div>
+									<div class="box3">£9,600.00</div>
 									<span class="label3">VAT</span>
-									<div class="box3">£2,000.00</div>
+									<div class="box3">£2,400.00</div>
 									<span class="label3">Total</span>
 									<div class="box3">£12,000.00</div>
 								</div>

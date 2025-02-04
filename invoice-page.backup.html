@@ -5,31 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="approvals-styles.css">
 	<link rel="stylesheet" href="overlay-crew-management-invoices.css">
-<script src="navbar.js" defer></script>
+	<script src="navbar.js" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
 	
     <title>Approvals Layout</title>
-    <script>
-        // Function to get URL parameters
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-
-        // When the page loads, set up the back button
-        window.onload = function() {
-            var fromPage = getUrlParameter('from');
-            var backButton = document.querySelector('.nav-button-circle');
-            if (backButton) {
-                // Update the back button's onclick handler to go to the correct page
-                backButton.onclick = function() {
-                    window.location.href = fromPage || 'john-invoices.html';
-                };
-            }
-        };
-    </script>
 	
 
 	
@@ -67,7 +46,7 @@
         <div class="top-container">
 			<div class="nav-bar-window">
 				<div class="navigation-buttons">
-					<button class="nav-button-circle">&#8249;</button>
+					<button class="nav-button-circle"   onclick="location.href='john-invoices.html';">&#8249;</button>
 					<button class="nav-button-circle2">&#8250;</button>
 				</div>
 				<h2 class="window-head">John Snow - TRX-00001</h2>
@@ -106,9 +85,9 @@
 								<div class="right-container">
 
 									<span class="label3">Subtotal</span>
-									<div class="box3">-</div>
+									<div class="box3">£3,000.00</div>
 									<span class="label3">VAT</span>
-									<div class="box3">-</div>
+									<div class="box3">£600.00</div>
 									<span class="label3">Total</span>
 									<div class="box3">£3,600.00</div>
 								</div>
@@ -331,12 +310,11 @@
                 <a href="crew-management-review.html"><button class="secondary-review-button">Review</button></a>
             </div>
         </div>
-    </div>>
+    </div>
 
     </div>
 
     <script>
-	
         // Dropdown functionality
 document.querySelectorAll('.dropdown-toggle').forEach(button => {
     button.addEventListener('click', () => {

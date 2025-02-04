@@ -81,27 +81,21 @@
             <!-- Fixed Header -->
             <div class="fixed-header">
                 <div class="top-bar">
-                    <div class="tabs">
-                        <button class="nav-button" onclick="location.href='reconciliations.html'">
-                            <span class="circle"></span> Reconciled
-                        </button>
-                        <button class="nav-button active" onclick="location.href='reconciliations-pending.html'">
-                            <span class="circle active"></span> Pending
-                        </button>
-                        <button class="nav-button" onclick="location.href='reconciliations-requested.html'">
-                            <span class="circle"></span> Requested
-                        </button>
-                    </div>
                 </div>
                 <div class="divider5"></div>
 				
-				<div class="title-container">
-					<h2 class="page-title">Reconciliations</h2>
-					<div class="toggle-buttons">
-						<button id="show-grid">Show Grid</button>
-						<button id="show-table">Show Table</button>
-					</div>
-				</div>
+                <div class="title-container">
+                    <h2 class="page-title">Reconciliations</h2>
+                    <div class="toggle-buttons">
+                        <select id="status-dropdown" class="status-dropdown">
+                            <option value="reconciled">Reconciled</option>
+                            <option value="pending" selected>Pending</option>
+                            <option value="requested">Requested</option>
+                        </select>
+                        <button id="show-grid">Show Grid</button>
+                        <button id="show-table">Show Table</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Scrollable Content -->
@@ -263,7 +257,7 @@
                                 <td style="color: #F95A5A">Pending</td>
                                 <td>Emma Johnson</td>
                                 <td>11/10/24</td>
-                                <td>&pound;25.00</td>
+                                <td>&pound;21.44</td>
                                 <td>
                                     <a href="reconciliations-overlay-pending.html" class="review-icon">
                                         <svg><use href="#magnifying-glass"/></svg>
@@ -344,42 +338,19 @@
     </div>
 
     <script>
-        // Dropdown functionality
-        document.querySelectorAll('.dropdown-toggle').forEach(button => {
-            button.addEventListener('click', () => {
-                const currentDropdown = button.nextElementSibling;
-                const arrow = button.querySelector('.arrow');
-
-                document.querySelectorAll('.submenu').forEach(menu => {
-                    if (menu !== currentDropdown) {
-                        menu.classList.remove('active');
-                        menu.style.display = 'none';
-                        menu.previousElementSibling.querySelector('.arrow').innerHTML = '&#9660;';
-                    }
-                });
-
-                if (currentDropdown.classList.contains('active')) {
-                    currentDropdown.classList.remove('active');
-                    setTimeout(() => {
-                        currentDropdown.style.display = 'none';
-                    }, 200);
-                    arrow.innerHTML = '&#9660;';
-                } else {
-                    currentDropdown.style.display = 'block';
-                    setTimeout(() => {
-                        currentDropdown.classList.add('active');
-                        const items = currentDropdown.querySelectorAll('li');
-                        items.forEach((item, index) => {
-                            item.style.setProperty('--delay', `${index * 0.03}s`);
-                        });
-                    }, 1);
-                    arrow.innerHTML = '&#9650;';
-                }
-            });
+        // Handle status dropdown navigation
+        document.getElementById('status-dropdown').addEventListener('change', function() {
+            const value = this.value;
+            if (value === 'pending') {
+                window.location.href = 'reconciliations-pending.html';
+            } else if (value === 'requested') {
+                window.location.href = 'reconciliations-requested.html';
+            } else {
+                window.location.href = 'reconciliations.html';
+            }
         });
-    </script>
-	
-    <script>
+
+        // Handle grid/table view toggle
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelector('.grid').style.display = 'flex';
             document.getElementById('table-container').style.display = 'none';
