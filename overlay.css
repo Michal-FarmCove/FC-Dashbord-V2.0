@@ -292,13 +292,30 @@
     padding: 8px 38px;
     border-radius: 52px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 13.5px;
     margin-top: 10px;
     text-align: center;
     display: block;
     gap: 5px;
     margin-left: 10px;
     margin-right: 10px;
+}
+
+.button1v1.add-recipient {
+    background-color: #717171;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: not-allowed;
+    font-size: 13px;
+    margin-top: -1px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    white-space: nowrap;
 }
 
 .button1v1:hover {
