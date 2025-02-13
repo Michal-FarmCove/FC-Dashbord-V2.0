@@ -6,20 +6,69 @@
     <link rel="stylesheet" href="approvals-styles.css">
     <link rel="stylesheet" href="overlay.css">
 <style>
-    .image-class2 {
-        transition: all 0.5s ease;
-        cursor: pointer;
-        transform-origin: center;
-    }
-    
-    .image-class2.enlarged {
-        transform: scale(2.55);
-        cursor: move;
-    }
-    
     .container-b {
         overflow: hidden;
         position: relative;
+    }
+    
+    .image-container {
+        background-color: #a2a3a4;
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .image-class2 {
+        transition: transform 0.3s ease;
+        cursor: grab;
+        transform-origin: center;
+        width: 37.5%;
+        display: block;
+        margin: 0 auto;
+    }
+    
+    .image-class2.dragging {
+        cursor: grabbing;
+    }
+    
+    .zoom-controls {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 5px;
+        border-radius: 4px;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+    }
+    
+    .zoom-btn {
+        background: #fff;
+        border: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .zoom-btn:hover {
+        background: #e0e0e0;
+    }
+    
+    .zoom-level {
+        color: #fff;
+        font-size: 12px;
+        margin: 0 8px;
+        min-width: 45px;
+        text-align: center;
     }
 </style>
 
@@ -68,8 +117,8 @@
 
 							<span class="label3" style="color: black;">Version</span>
 							<div class="box3">1</div>
-							<span class="label3" style="color: black;">Created</span>
-							<div class="box3">17/01/2025, 03:17</div>
+							<span class="label3" style="color: black;">Date Created</span>
+							<div class="box3">17 January 2025</div>
 
 						</div>
 
@@ -107,9 +156,24 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td>Sophie Anderson (Creative Director)</td>
+											<td>Sophie Anderson</td>
 											<td>sophie.anderson@farmcove.co.uk</td>
 											<td>64226949222</td>
+										</tr>
+										<tr>
+											<td>Jack Smith</td>
+											<td>jack.smith@farmcove.co.uk</td>
+											<td>64226949223</td>
+										</tr>
+										<tr>
+											<td>Micheal Brown</td>
+											<td>micheal.brown@farmcove.co.uk</td>
+											<td>64226949224</td>
+										</tr>
+										<tr>
+											<td>Will Jackson</td>
+											<td>will.jackson@farmcove.co.uk</td>
+											<td>64226949225</td>
 										</tr>
 									</tbody>
 								</table>
@@ -128,14 +192,42 @@
 									<tbody>
 										<tr>
 											<td><input type="checkbox"></td>
-											<td>Alex Turner - Creative Lead</td>
-											<td>Lead</td>
-											<td>Creative</td>
-											<td>alex.turner@farmcove.co.uk</td>
+											<td>Will Jackson</td>
+											<td>Approver</td>
+											<td>Finance</td>
+											<td>will.jackson@farmcove.co.uk</td>
 											<td>07563123111</td>
+										</tr>
+										<tr>
+											<td><input type="checkbox"></td>
+											<td>James Wilson</td>
+											<td>Approver</td>
+											<td>Finance</td>
+											<td>james.wilson@farmcove.co.uk</td>
+											<td>07563123112</td>
+										</tr>
+										<tr>
+											<td><input type="checkbox"></td>
+											<td>Sarah Miller</td>
+											<td>Approver</td>
+											<td>Finance</td>
+											<td>sarah.miller@farmcove.co.uk</td>
+											<td>07563123113</td>
+										</tr>
+										<tr>
+											<td><input type="checkbox"></td>
+											<td>Alex Turner</td>
+											<td>Approver</td>
+											<td>Finance</td>
+											<td>alex.turner@farmcove.co.uk</td>
+											<td>07563123114</td>
 										</tr>
 									</tbody>
 								</table>
+								<div style="display: flex; justify-content: flex-end; margin-top: -1px; margin-bottom: 25px;">
+									<button class="button1v1 add-recipient" disabled>+ Add Recipient</button>
+								</div>
+								<div class="divider" style="margin-bottom: 5px; background-color: #32B8CD;"></div>
 							</div>
 
 						</div>
@@ -148,7 +240,15 @@
 
 							</div>	
 
-								<img src="compliance-docs\approval-structure.png" alt="Descriptive Text" class="image-class2">
+								<div class="image-container">
+									<img src="compliance-docs\New\Approval Structure.jpg" alt="Approval Structure" class="image-class2">
+									<div class="zoom-controls">
+										<button class="zoom-btn" id="zoom-out">-</button>
+										<span class="zoom-level">100%</span>
+										<button class="zoom-btn" id="zoom-in">+</button>
+										<button class="zoom-btn" id="zoom-reset">↺</button>
+									</div>
+								</div>
 
 						</div>
 
@@ -391,7 +491,11 @@ function hideOverlay() {
     <script>
         window.addEventListener('load', function() {
             const image = document.querySelector('.image-class2');
-            let isEnlarged = false;
+            const zoomLevel = document.querySelector('.zoom-level');
+            const zoomInBtn = document.getElementById('zoom-in');
+            const zoomOutBtn = document.getElementById('zoom-out');
+            const zoomResetBtn = document.getElementById('zoom-reset');
+            
             let isDragging = false;
             let currentX;
             let currentY;
@@ -399,49 +503,99 @@ function hideOverlay() {
             let initialY;
             let xOffset = 0;
             let yOffset = 0;
+            let currentZoom = 1;
+            const ZOOM_STEP = 0.1;
+            const MIN_ZOOM = 0.5;
+            const MAX_ZOOM = 4;
 
-            function setTranslate(xPos, yOffset) {
-                image.style.transform = `translate3d(${xPos}px, ${yOffset}px, 0) scale(${isEnlarged ? 1.25 : 1})`;
+            function updateZoomLevel() {
+                zoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
             }
 
-            image.addEventListener('click', function(e) {
-                if (!isDragging) {
-                    isEnlarged = !isEnlarged;
-                    if (!isEnlarged) {
-                        xOffset = 0;
-                        yOffset = 0;
-                        setTranslate(0, 0);
-                    }
-                    this.classList.toggle('enlarged');
+            function setTransform() {
+                image.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0) scale(${currentZoom})`;
+            }
+
+            function handleZoom(delta, mouseX, mouseY) {
+                const oldZoom = currentZoom;
+                currentZoom = Math.min(Math.max(currentZoom + delta, MIN_ZOOM), MAX_ZOOM);
+                
+                if (oldZoom !== currentZoom) {
+                    // Adjust offset to zoom towards mouse position
+                    const imageRect = image.getBoundingClientRect();
+                    const px = (mouseX - imageRect.left) / imageRect.width;
+                    const py = (mouseY - imageRect.top) / imageRect.height;
+                    
+                    const deltaZoom = currentZoom - oldZoom;
+                    xOffset -= imageRect.width * deltaZoom * px;
+                    yOffset -= imageRect.height * deltaZoom * py;
+                    
+                    setTransform();
+                    updateZoomLevel();
+                }
+            }
+
+            // Mouse wheel zoom
+            image.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                const delta = -e.deltaY * 0.001;
+                handleZoom(delta, e.clientX, e.clientY);
+            });
+
+            // Zoom buttons
+            zoomInBtn.addEventListener('click', () => handleZoom(ZOOM_STEP, image.offsetWidth/2, image.offsetHeight/2));
+            zoomOutBtn.addEventListener('click', () => handleZoom(-ZOOM_STEP, image.offsetWidth/2, image.offsetHeight/2));
+            zoomResetBtn.addEventListener('click', () => {
+                currentZoom = 1;
+                xOffset = 0;
+                yOffset = 0;
+                setTransform();
+                updateZoomLevel();
+            });
+
+            // Double click to reset
+            image.addEventListener('dblclick', function(e) {
+                if (currentZoom === 1) {
+                    handleZoom(1, e.clientX, e.clientY);
+                } else {
+                    currentZoom = 1;
+                    xOffset = 0;
+                    yOffset = 0;
+                    setTransform();
+                    updateZoomLevel();
                 }
             });
 
+            // Dragging functionality
             image.addEventListener('mousedown', function(e) {
-                if (isEnlarged) {
-                    initialX = e.clientX - xOffset;
-                    initialY = e.clientY - yOffset;
-                    isDragging = true;
-                }
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+                isDragging = true;
+                image.classList.add('dragging');
             });
 
             window.addEventListener('mousemove', function(e) {
-                if (isDragging && isEnlarged) {
+                if (isDragging) {
                     e.preventDefault();
                     currentX = e.clientX - initialX;
                     currentY = e.clientY - initialY;
                     xOffset = currentX;
                     yOffset = currentY;
-                    setTranslate(currentX, currentY);
+                    setTransform();
                 }
             });
 
             window.addEventListener('mouseup', function() {
                 isDragging = false;
+                image.classList.remove('dragging');
             });
 
             image.addEventListener('dragstart', function(e) {
                 e.preventDefault();
             });
+
+            // Initialize zoom level display
+            updateZoomLevel();
         });
     </script>
 	

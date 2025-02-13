@@ -7,21 +7,69 @@
     <link rel="stylesheet" href="overlay.css">
     <script src="navbar.js" defer></script>
     <style>
-        .image-container {
+        .container-b {
             overflow: hidden;
             position: relative;
         }
         
-        .image-class2 {
-            transition: transform 0.3s ease;
-            cursor: pointer;
-            transform-origin: center center;
+        .image-container {
+            background-color: #a2a3a4;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 4px;
             position: relative;
+            overflow: hidden;
         }
         
-        .image-class2.enlarged {
-            transform: scale(2.55);
-            cursor: move;
+        .image-class2 {
+            transition: transform 0.3s ease;
+            cursor: grab;
+            transform-origin: center;
+            width: 37.5%;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .image-class2.dragging {
+            cursor: grabbing;
+        }
+        
+        .zoom-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px;
+            border-radius: 4px;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .zoom-btn {
+            background: #fff;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .zoom-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .zoom-level {
+            color: #fff;
+            font-size: 12px;
+            margin: 0 8px;
+            min-width: 45px;
+            text-align: center;
         }
     </style>
 
@@ -48,7 +96,7 @@
 
             <!-- Top Container -->
             <div class="top-container" style="margin-top: 10px; margin-left: 5px; margin-right: 25px;">
-                <h2 class="window-head">Transaction Processing</h2>
+                <h2 class="window-head">Transaction Processing Overview</h2>
                 <div class="divider" style="background-color: black"></div>
             </div>
 
@@ -62,8 +110,8 @@
 
                         <span class="label3" style="color: black;">Version</span>
                         <div class="box3">1</div>
-                        <span class="label3" style="color: black;">Created</span>
-                        <div class="box3">04/11/2024, 17:08</div>
+							<span class="label3" style="color: black;">Date Created</span>
+							<div class="box3">February 3, 2025</div>
                     </div>
 
                     <!-- Yellow Container -->
@@ -72,21 +120,20 @@
                         <div class="divider" style="margin-bottom: 5px; background-color: #32B8CD; margin-bottom: 25px;"></div>
 
                         <span class="label3" style="color: black;">Creator</span>
-                        <div class="box3">Mark Noir - Company Director</div>
+							<div class="box3">Emma Berolli - Finance Manager</div>
                         <span class="label3" style="color: black;">Status</span>
                         <div class="box3">Sent</div>
                         <span class="label3" style="color: black;">Type</span>
                         <div class="box3">Compliance</div>
                         <span class="label3" style="color: black;">Subtype</span>
-                        <div class="box3">Transaction Processing Overview</div>
+							<div class="box3">Transaction Processing Overview</div>
                     </div>
 
                     <!-- Recipients Container -->
                     <div class="container-t-l" style="grid-column: 1 / -1; margin-top: 10px;">
                         <div class="manage-recipients">
-                            <h2 class="card-title" style="text-align: left; color: #32B8CD; margin-bottom: -5px;">Manage Recipients</h2>
+                            <h2 class="card-title" style="text-align: left; color: #32B8CD; margin-bottom: -5px;">Recipients</h2>
                             <div class="divider" style="margin-bottom: 5px; background-color: #32B8CD; margin-bottom: 25px;"></div>
-                            <h4 class="current-recipients-title" style="margin-top: -10px;">Current Recipients</h4>
                             <table class="recipients-table">
                                 <thead>
                                     <tr>
@@ -97,40 +144,24 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Thomas Brown (Finance Director)</td>
-                                        <td>thomas.brown@farmcove.co.uk</td>
-                                        <td>64226949444</td>
+											<td>Thomas Brown</td>
+											<td>thomas.brown@farmcove.co.uk</td>
+											<td>64226949444</td>
+										</tr>
+										<tr>
+											<td>Lucy Parker</td>
+											<td>lucy.parker@farmcove.co.uk</td>
+											<td>64226949445</td>
+										</tr>
+										<tr>
+											<td>James Wilson</td>
+											<td>james.wilson@farmcove.co.uk</td>
+											<td>64226949446</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <h4 class="add-recipient-title" style="margin-top: -10px;">Add Recipient</h4>
-                            <table class="recipients-table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Name and Role</th>
-                                        <th>Type</th>
-                                        <th>Department</th>
-                                        <th>Email</th>
-                                        <th>Mobile</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="checkbox"></td>
-                                        <td>Emily Davis - Finance Manager</td>
-                                        <td>Manager</td>
-                                        <td>Finance</td>
-                                        <td>emily.davis@farmcove.co.uk</td>
-                                        <td>07563123777</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="button-containerrr" style="margin-top: -10px;">
-                            <button class="button1v1" onclick="saveAndClosePopup()">Save</button>
-                            <button class="button1v1" onclick="submitForApproval()">Submit for Approval</button>
-                        </div>
+                            <div class="divider" style="margin-bottom: 5px; background-color: #32B8CD;"></div>
+							</div>
                     </div>
 
                     <div class="container-b" style="grid-column: 1 / -1;">
@@ -138,7 +169,15 @@
                             <h2 class="card-title" style="text-align: left; color: #32B8CD; margin-bottom: -5px;">Document</h2>
                             <div class="divider" style="margin-bottom: 5px; background-color: #32B8CD; margin-bottom: 25px;"></div>
                         </div>    
-                        <img src="compliance-docs\transaction-processing.png" alt="Descriptive Text" class="image-class2">
+                        <div class="image-container">
+                            <img src="compliance-docs\New\Transaction Processing Overview.jpg" alt="Transaction Processing Overview" class="image-class2">
+                            <div class="zoom-controls">
+                                <button class="zoom-btn" id="zoom-out">-</button>
+                                <span class="zoom-level">100%</span>
+                                <button class="zoom-btn" id="zoom-in">+</button>
+                                <button class="zoom-btn" id="zoom-reset">↺</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>    
@@ -184,7 +223,11 @@
     <script>
         window.addEventListener('load', function() {
             const image = document.querySelector('.image-class2');
-            let isEnlarged = false;
+            const zoomLevel = document.querySelector('.zoom-level');
+            const zoomInBtn = document.getElementById('zoom-in');
+            const zoomOutBtn = document.getElementById('zoom-out');
+            const zoomResetBtn = document.getElementById('zoom-reset');
+            
             let isDragging = false;
             let currentX;
             let currentY;
@@ -192,49 +235,99 @@
             let initialY;
             let xOffset = 0;
             let yOffset = 0;
+            let currentZoom = 1;
+            const ZOOM_STEP = 0.1;
+            const MIN_ZOOM = 0.5;
+            const MAX_ZOOM = 4;
 
-            function setTranslate(xPos, yOffset) {
-                image.style.transform = `translate3d(${xPos}px, ${yOffset}px, 0) scale(${isEnlarged ? 1.25 : 1})`;
+            function updateZoomLevel() {
+                zoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
             }
 
-            image.addEventListener('click', function(e) {
-                if (!isDragging) {
-                    isEnlarged = !isEnlarged;
-                    if (!isEnlarged) {
-                        xOffset = 0;
-                        yOffset = 0;
-                        setTranslate(0, 0);
-                    }
-                    this.classList.toggle('enlarged');
+            function setTransform() {
+                image.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0) scale(${currentZoom})`;
+            }
+
+            function handleZoom(delta, mouseX, mouseY) {
+                const oldZoom = currentZoom;
+                currentZoom = Math.min(Math.max(currentZoom + delta, MIN_ZOOM), MAX_ZOOM);
+                
+                if (oldZoom !== currentZoom) {
+                    // Adjust offset to zoom towards mouse position
+                    const imageRect = image.getBoundingClientRect();
+                    const px = (mouseX - imageRect.left) / imageRect.width;
+                    const py = (mouseY - imageRect.top) / imageRect.height;
+                    
+                    const deltaZoom = currentZoom - oldZoom;
+                    xOffset -= imageRect.width * deltaZoom * px;
+                    yOffset -= imageRect.height * deltaZoom * py;
+                    
+                    setTransform();
+                    updateZoomLevel();
+                }
+            }
+
+            // Mouse wheel zoom
+            image.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                const delta = -e.deltaY * 0.001;
+                handleZoom(delta, e.clientX, e.clientY);
+            });
+
+            // Zoom buttons
+            zoomInBtn.addEventListener('click', () => handleZoom(ZOOM_STEP, image.offsetWidth/2, image.offsetHeight/2));
+            zoomOutBtn.addEventListener('click', () => handleZoom(-ZOOM_STEP, image.offsetWidth/2, image.offsetHeight/2));
+            zoomResetBtn.addEventListener('click', () => {
+                currentZoom = 1;
+                xOffset = 0;
+                yOffset = 0;
+                setTransform();
+                updateZoomLevel();
+            });
+
+            // Double click to reset
+            image.addEventListener('dblclick', function(e) {
+                if (currentZoom === 1) {
+                    handleZoom(1, e.clientX, e.clientY);
+                } else {
+                    currentZoom = 1;
+                    xOffset = 0;
+                    yOffset = 0;
+                    setTransform();
+                    updateZoomLevel();
                 }
             });
 
+            // Dragging functionality
             image.addEventListener('mousedown', function(e) {
-                if (isEnlarged) {
-                    initialX = e.clientX - xOffset;
-                    initialY = e.clientY - yOffset;
-                    isDragging = true;
-                }
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+                isDragging = true;
+                image.classList.add('dragging');
             });
 
             window.addEventListener('mousemove', function(e) {
-                if (isDragging && isEnlarged) {
+                if (isDragging) {
                     e.preventDefault();
                     currentX = e.clientX - initialX;
                     currentY = e.clientY - initialY;
                     xOffset = currentX;
                     yOffset = currentY;
-                    setTranslate(currentX, currentY);
+                    setTransform();
                 }
             });
 
             window.addEventListener('mouseup', function() {
                 isDragging = false;
+                image.classList.remove('dragging');
             });
 
             image.addEventListener('dragstart', function(e) {
                 e.preventDefault();
             });
+
+            // Initialize zoom level display
+            updateZoomLevel();
         });
     </script>
 </body>
